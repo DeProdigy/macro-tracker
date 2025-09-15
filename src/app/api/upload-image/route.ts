@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
+import { put } from '@vercel/blob';
 import { randomUUID } from 'crypto';
 import { getUserFromRequest } from '@/lib/auth';
 
@@ -26,21 +25,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     // Generate unique filename
     const fileExtension = file.name.split('.').pop() || 'jpg';
     const filename = `${randomUUID()}.${fileExtension}`;
-    const filepath = join(process.cwd(), 'uploads', filename);
 
-    // Save file to private uploads directory
-    await writeFile(filepath, buffer);
+    // Upload to Vercel Blob storage
+    const blob = await put(filename, file, {
+      access: 'public',
+    });
 
     return NextResponse.json({
       success: true,
       filename,
-      path: `/api/images/${filename}`
+      path: blob.url
     });
 
   } catch (error) {
