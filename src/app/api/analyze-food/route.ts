@@ -95,7 +95,7 @@ Be as accurate as possible with portion estimation. If unsure, provide a reasona
 
       const analysis: OpenAIAnalysisResult = JSON.parse(cleanedText);
       return NextResponse.json(analysis);
-    } catch (parseError) {
+    } catch {
       console.error('Failed to parse OpenAI response:', responseText);
       return NextResponse.json(
         { error: 'Failed to analyze food image' },

@@ -75,7 +75,7 @@ const FoodLog = () => {
           <div className="text-6xl mb-4">🍽️</div>
           <h3 className="text-lg font-medium text-slate-900 mb-2">No food entries</h3>
           <p className="text-slate-600">
-            You haven't logged any food for this day yet.
+            You haven&apos;t logged any food for this day yet.
           </p>
         </div>
       ) : (

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getUserFromRequest } from '@/lib/auth';
-import type { FoodEntry } from '@prisma/client';
+// import type { FoodEntry } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const date = searchParams.get('date');
 
-    let whereClause: any = {
+    const whereClause: { userId: string; createdAt?: { gte: Date; lte: Date } } = {
       userId: user.userId,
     };
 

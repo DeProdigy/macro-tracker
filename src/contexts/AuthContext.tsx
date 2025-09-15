@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import type { User } from '@/types';
+// import type { User } from '@/types';
 
 interface AuthUser {
   id: string;
@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   const value = {
     user,

@@ -41,7 +41,7 @@ export async function GET(
         break;
     }
 
-    return new NextResponse(imageBuffer, {
+    return new NextResponse(imageBuffer as unknown as BodyInit, {
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=31536000, immutable',

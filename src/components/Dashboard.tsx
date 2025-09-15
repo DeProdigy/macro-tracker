@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import DailySummary from './DailySummary';
 import MacroChart from './MacroChart';
 import { apiCall } from '@/lib/api';
@@ -105,9 +106,11 @@ const Dashboard = () => {
                 {foodEntries.map((entry) => (
                   <div key={entry.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                     <div className="flex items-center space-x-3">
-                      <img
+                      <Image
                         src={entry.imagePath}
                         alt="Food"
+                        width={48}
+                        height={48}
                         className="w-12 h-12 object-cover rounded-lg"
                       />
                       <div>
