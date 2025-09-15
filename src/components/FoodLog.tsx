@@ -100,7 +100,7 @@ const FoodLog = () => {
                       {entry.description || 'Food Entry'}
                     </h3>
                     <span className="text-sm text-slate-600">
-                      {formatTime(entry.createdAt)}
+                      {formatTime(entry.createdAt.toString())}
                     </span>
                   </div>
 

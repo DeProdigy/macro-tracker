@@ -36,10 +36,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const getAuthHeaders = () => {
-    const token = localStorage.getItem('auth-token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  };
+  // const getAuthHeaders = () => {
+  //   const token = localStorage.getItem('auth-token');
+  //   return token ? { Authorization: `Bearer ${token}` } : {};
+  // };
 
 
   const login = async (email: string, password: string) => {
