@@ -41,31 +41,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   };
 
-  const checkAuth = async () => {
-    try {
-      const token = localStorage.getItem('auth-token');
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
-      const response = await fetch('/api/auth/me', {
-        headers: getAuthHeaders(),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-      } else {
-        localStorage.removeItem('auth-token');
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      localStorage.removeItem('auth-token');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const login = async (email: string, password: string) => {
     const response = await fetch('/api/auth/login', {
@@ -107,8 +82,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    const initAuth = async () => {
+      const token = localStorage.getItem('auth-token');
+      if (token) {
+        try {
+          const response = await fetch('/api/auth/me', {
+            headers: { 'Authorization': `Bearer ${token}` },
+          });
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            localStorage.removeItem('auth-token');
+          }
+        } catch (error) {
+          console.error('Auth check failed:', error);
+          localStorage.removeItem('auth-token');
+        }
+      }
+      setLoading(false);
+    };
+    initAuth();
+  }, []);
 
   const value = {
     user,
