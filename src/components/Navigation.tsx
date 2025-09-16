@@ -15,10 +15,10 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md border-b">
+    <nav className="bg-blue-900 shadow-md border-b border-blue-800">
       <div className="max-w-4xl mx-auto px-6">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-slate-900">
+          <Link href="/" className="text-xl font-bold text-white">
             MacroTracker
           </Link>
 
@@ -31,8 +31,8 @@ const Navigation = () => {
                   className={`
                     px-4 py-2 rounded-lg text-sm font-medium transition-colors
                     ${pathname === item.href
-                      ? 'bg-emerald-600 text-white shadow-md'
-                      : 'text-slate-700 hover:text-slate-900 hover:bg-emerald-50'
+                      ? 'bg-amber-500 text-blue-950 shadow-md font-semibold'
+                      : 'text-blue-100 hover:text-white hover:bg-blue-800'
                     }
                   `}
                 >
@@ -43,13 +43,13 @@ const Navigation = () => {
             </div>
 
             {user && (
-              <div className="flex items-center space-x-3 pl-4 border-l border-slate-200">
-                <span className="text-sm text-slate-700">
+              <div className="flex items-center space-x-3 pl-4 border-l border-blue-700">
+                <span className="text-sm text-blue-100">
                   {user.name || user.email}
                 </span>
                 <button
                   onClick={logout}
-                  className="text-sm text-slate-700 hover:text-slate-900 px-3 py-1 rounded hover:bg-red-50 hover:text-red-700 transition-colors"
+                  className="text-sm text-blue-100 hover:text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
                 >
                   Logout
                 </button>

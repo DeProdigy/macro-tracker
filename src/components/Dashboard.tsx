@@ -10,9 +10,6 @@ import type { FoodEntry, MacroSummary } from '@/types';
 const Dashboard = () => {
   const [foodEntries, setFoodEntries] = useState<FoodEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(() => {
-    return new Date().toISOString().split('T')[0];
-  });
 
   const calculateMacroSummary = (entries: FoodEntry[]): MacroSummary => {
     return entries.reduce(
@@ -26,10 +23,11 @@ const Dashboard = () => {
     );
   };
 
-  const fetchFoodEntries = async (date: string) => {
+  const fetchFoodEntries = async () => {
     setLoading(true);
     try {
-      const response = await apiCall(`/api/food-entries?date=${date}`);
+      const today = new Date().toISOString().split('T')[0];
+      const response = await apiCall(`/api/food-entries?date=${today}`);
       if (response.ok) {
         const entries = await response.json();
         setFoodEntries(entries);
@@ -42,41 +40,23 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchFoodEntries(selectedDate);
-  }, [selectedDate]);
+    fetchFoodEntries();
+  }, []);
 
   const summary = calculateMacroSummary(foodEntries);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const isToday = selectedDate === new Date().toISOString().split('T')[0];
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">
-          {isToday ? "Today's" : formatDate(selectedDate)} Dashboard
+        <h1 className="text-2xl font-bold text-white">
+          Today&apos;s Dashboard
         </h1>
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className="px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-slate-900 font-medium"
-        />
       </div>
 
       {loading ? (
         <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500 mx-auto"></div>
-          <p className="mt-2 text-slate-700">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400 mx-auto"></div>
+          <p className="mt-2 text-blue-100">Loading...</p>
         </div>
       ) : (
         <>
@@ -118,7 +98,10 @@ const Dashboard = () => {
                           {entry.description || 'Food Entry'}
                         </p>
                         <p className="text-xs text-slate-600">
-                          {new Date(entry.createdAt).toLocaleTimeString()}
+                          {new Date(entry.createdAt).toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
                         </p>
                       </div>
                     </div>
